@@ -22,22 +22,15 @@ import java.util.List;
 public class RestController {
 
 
-//    TODO: fix stackoverflow error when getting all games and levels
 
     @Autowired
     UserService userService;
 
 
-
-//    @GetMapping("/registration")
-//    public String registration() {
-//        return "reg";
-//    }
-
+    //    TODO: cart:add,remove,clear,order,get,getAll
     @GetMapping("/ping")
     public String ping() {
         return "Pong! You are authenticated user";
     }
-
 
 }
