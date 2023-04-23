@@ -22,6 +22,9 @@ public class AuthenticationService {
 
 
     public AuthentificationResponse register(RegisterRequest registerRequest) {
+        if(userRepo.existsByUsername(registerRequest.getUsername())) {
+            return null;
+        }
         var user = User.builder()
                 .username(registerRequest.getUsername())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))

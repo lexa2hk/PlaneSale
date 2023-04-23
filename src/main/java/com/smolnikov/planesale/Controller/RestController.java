@@ -11,6 +11,7 @@ import ch.qos.logback.core.model.Model;
 //import com.example.task23.services.LevelService;
 //import com.example.task23.services.UserService;
 import com.smolnikov.planesale.Entity.User;
+import com.smolnikov.planesale.Response.CartRequest;
 import com.smolnikov.planesale.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,6 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class RestController {
 
-
-
     @Autowired
     UserService userService;
 
@@ -31,6 +30,13 @@ public class RestController {
     @GetMapping("/ping")
     public String ping() {
         return "Pong! You are authenticated user";
+    }
+
+
+
+    @PostMapping("/addToCart")
+    public String addToCart(@RequestBody CartRequest cartRequest) {
+        return userService.addToCart(cartRequest);
     }
 
 }

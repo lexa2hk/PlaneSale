@@ -29,6 +29,10 @@ public class User implements UserDetails {
 
     private String password;
 
+    @OneToMany(mappedBy = "user")
+    private List<ReservationEntity> reservations;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
@@ -63,4 +67,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
+
 }
