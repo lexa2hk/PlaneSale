@@ -5,12 +5,16 @@ import com.smolnikov.planesale.Entity.User;
 import com.smolnikov.planesale.Repository.ReservationRepo;
 import com.smolnikov.planesale.Repository.UserRepo;
 import com.smolnikov.planesale.Response.CartRequest;
+import com.smolnikov.planesale.Response.CartResponse;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -54,5 +58,12 @@ public class UserService implements UserDetailsService {
         reservationEntity.setUser(user);
         reservationRepo.save(reservationEntity);
         return "success";
+    }
+
+    public List<CartResponse> getCart(String username) {
+        List<CartResponse> responses = new ArrayList<CartResponse>();
+        Iterable<ReservationEntity> reservationEntities = reservationRepo.findAllByUser_Username(username);
+        reservationEntities.forEach(reservationEntity -> responses.add(new CartResponse(reservationEntity)));
+        return responses;
     }
 }

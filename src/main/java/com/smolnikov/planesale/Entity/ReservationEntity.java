@@ -14,6 +14,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ReservationEntity {
     @Id
+    @SequenceGenerator(name = "departure_seq", sequenceName =
+        "departure_sequence", allocationSize = 1)
+    @GeneratedValue(generator = "departure_seq", strategy =
+        GenerationType.SEQUENCE)
     private int id;
 
     private String flightCode;
