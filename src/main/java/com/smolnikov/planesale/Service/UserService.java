@@ -6,6 +6,7 @@ import com.smolnikov.planesale.Repository.ReservationRepo;
 import com.smolnikov.planesale.Repository.UserRepo;
 import com.smolnikov.planesale.Response.CartRequest;
 import com.smolnikov.planesale.Response.CartResponse;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -65,5 +66,12 @@ public class UserService implements UserDetailsService {
         Iterable<ReservationEntity> reservationEntities = reservationRepo.findAllByUser_Username(username);
         reservationEntities.forEach(reservationEntity -> responses.add(new CartResponse(reservationEntity)));
         return responses;
+    }
+
+    @Transactional
+    public String clearCart(String extractUsername) {
+        //todo clear cart
+        reservationRepo.deleteAllByUser_Username(extractUsername);
+        return "success";
     }
 }

@@ -1,5 +1,7 @@
 package com.smolnikov.planesale.AirportLogic.logger;
 
+import jakarta.annotation.PostConstruct;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,12 +12,21 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 public interface logger extends Serializable {
-    public static void log(String message) throws IOException {
-        System.out.println(message);
+    @PostConstruct
+    default void initalize() throws IOException {
+
         File file = new File("logs/logs.log");
+        file.delete();
         if (file.createNewFile()){
             System.out.println("File is created!");
         }
+    }
+
+
+    public static void log(String message) throws IOException {
+        System.out.println(message);
+        File file = new File("logs/logs.log");
+
         try {
             String checkerRegex = "[A-Z][A-Z][0-9][0-9][0-9][0-9][' '][i][s].+";
             Pattern pattern = Pattern.compile(checkerRegex);

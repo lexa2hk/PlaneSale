@@ -41,7 +41,6 @@ public class WebSecurityConfig {
     private final AuthenticationProvider authenticationProvider;
 
 
-    //    TODO: fix CORS error
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
