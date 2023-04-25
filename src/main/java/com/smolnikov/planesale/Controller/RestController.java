@@ -31,7 +31,7 @@ public class RestController {
     UserService userService;
 
 
-    //    TODO: cart:remove,clear,order
+    //    TODO: cart:remove,order
     @GetMapping("/ping")
     public String ping() {
         return "Pong! You are authenticated user";
@@ -54,6 +54,18 @@ public class RestController {
     public String clearCart(@RequestHeader("Authorization") String bearerToken) {
         return userService.clearCart(jwtService.extractUsername(bearerToken.split(" ")[1]));
     }
+
+    @PostMapping("/removeFromCart")
+    public String removeFromCart(@RequestHeader("Authorization") String bearerToken, @RequestBody String flightCode) {
+        return userService.removeFromCart(jwtService.extractUsername(bearerToken.split(" ")[1]), flightCode);
+    }
+
+    @PostMapping("/order")
+    public String order(@RequestHeader("Authorization") String bearerToken) {
+        return userService.order(jwtService.extractUsername(bearerToken.split(" ")[1]));
+    }
+
+
 
 
 }

@@ -1,7 +1,9 @@
 package com.smolnikov.planesale.Service;
 
+import com.smolnikov.planesale.Entity.OrderEntity;
 import com.smolnikov.planesale.Entity.ReservationEntity;
 import com.smolnikov.planesale.Entity.User;
+import com.smolnikov.planesale.Repository.OrderRepo;
 import com.smolnikov.planesale.Repository.ReservationRepo;
 import com.smolnikov.planesale.Repository.UserRepo;
 import com.smolnikov.planesale.Response.CartRequest;
@@ -15,19 +17,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepo repo;
+    
+    private final OrderRepo orderRepo;
 
     private final ReservationRepo reservationRepo;
     private final BCryptPasswordEncoder encoder;
 
-    public UserService(UserRepo repo, PasswordEncoder encoder, ReservationRepo reservationRepo) {
+    public UserService(UserRepo repo, PasswordEncoder encoder, ReservationRepo reservationRepo, OrderRepo orderRepo) {
         this.repo = repo;
         this.encoder = (BCryptPasswordEncoder) encoder;
         this.reservationRepo = reservationRepo;
+        this.orderRepo = orderRepo;
     }
 
     public boolean addUser(String userName, String Password){
@@ -70,8 +76,29 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public String clearCart(String extractUsername) {
-        //todo clear cart
         reservationRepo.deleteAllByUser_Username(extractUsername);
         return "success";
+    }
+
+    public String removeFromCart(String extractUsername, String flightCode) {
+        reservationRepo.deleteByUser_UsernameAndFlightCode(extractUsername, flightCode);
+        return "success";
+    }
+
+    public String order(String extractUsername) {
+        OrderEntity orderEntity = new OrderEntity();
+        Iterable<ReservationEntity> reservationEntitiesIter = reservationRepo.findAllByUser_Username(extractUsername);
+        List<ReservationEntity> reservationEntities = new ArrayList<ReservationEntity>();
+        reservationEntitiesIter.forEach(reservationEntities::add);
+        for (ReservationEntity reservationEntity : reservationEntities) {
+            orderEntity.setFlightCode(reservationEntity.getFlightCode());
+            orderEntity.setName(reservationEntity.getName());
+            orderEntity.setSurname(reservationEntity.getSurname());
+            orderEntity.setEmail(reservationEntity.getEmail());
+            orderEntity.setPhone(reservationEntity.getPhone());
+//            orderEntity.setUser(reservationEntity.getUser());
+            orderRepo.save(orderEntity);
+        }
+        return "Success";
     }
 }

@@ -8,4 +8,6 @@ public interface ReservationRepo extends CrudRepository<ReservationEntity, Integ
     Iterable<ReservationEntity> findAllByUser_Username(String user_username);
 
     void deleteAllByUser_Username(String user_username);
+
+    void deleteByUser_UsernameAndFlightCode(String extractUsername, String flightCode);
 }
