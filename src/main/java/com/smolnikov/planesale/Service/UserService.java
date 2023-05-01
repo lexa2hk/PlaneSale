@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -55,6 +54,7 @@ public class UserService implements UserDetailsService {
 
     public String addToCart(CartRequest cartRequest) {
         ReservationEntity reservationEntity = new ReservationEntity();
+        // todo :Check if flightcode is correct
         reservationEntity.setFlightCode(cartRequest.getFlightCode());
         reservationEntity.setName(cartRequest.getName());
         reservationEntity.setSurname(cartRequest.getSurname());
@@ -96,7 +96,7 @@ public class UserService implements UserDetailsService {
             orderEntity.setSurname(reservationEntity.getSurname());
             orderEntity.setEmail(reservationEntity.getEmail());
             orderEntity.setPhone(reservationEntity.getPhone());
-//            orderEntity.setUser(reservationEntity.getUser());
+            orderEntity.setUser(reservationEntity.getUser());
             orderRepo.save(orderEntity);
         }
         return "Success";

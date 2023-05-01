@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AircraftService implements Serializable {
@@ -74,5 +72,12 @@ public class AircraftService implements Serializable {
     }
     public void eraseAll() {
         aircraftRepo.deleteAll();
+    }
+
+    public String getFlights() {
+        //return flightcodes
+        List<AircraftEntity> list = new ArrayList<>();
+        aircraftRepo.findAll().forEach(list::add);
+        return list.stream().map(AircraftEntity::getFlightcode).toList().toString();
     }
 }

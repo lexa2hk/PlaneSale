@@ -29,6 +29,8 @@ public class User implements UserDetails {
 
     private String password;
 
+    private String email;
+
     @OneToMany(mappedBy = "user")
     private List<ReservationEntity> reservations;
 

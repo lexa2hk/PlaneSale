@@ -12,6 +12,7 @@ import ch.qos.logback.core.model.Model;
 //import com.example.task23.services.UserService;
 import com.smolnikov.planesale.Auth.JwtService;
 import com.smolnikov.planesale.Entity.User;
+import com.smolnikov.planesale.Request.OrderRequest;
 import com.smolnikov.planesale.Response.CartRequest;
 import com.smolnikov.planesale.Response.CartResponse;
 import com.smolnikov.planesale.Service.UserService;
@@ -39,29 +40,29 @@ public class RestController {
 
 
 
-    @PostMapping("/addToCart")
+    @PostMapping("/add/cart")
     public String addToCart(@RequestBody CartRequest cartRequest) {
         return userService.addToCart(cartRequest);
     }
 
-    @GetMapping("/getCart")
+    @GetMapping("/get/cart")
     public List<CartResponse> getCart(@RequestHeader("Authorization") String bearerToken) {
 //        jwtService.extractUsername(bearerToken);
         return userService.getCart(jwtService.extractUsername(bearerToken.split(" ")[1]));
     }
 
-    @PostMapping("/clearCart")
+    @PostMapping("/clear/cart")
     public String clearCart(@RequestHeader("Authorization") String bearerToken) {
         return userService.clearCart(jwtService.extractUsername(bearerToken.split(" ")[1]));
     }
 
-    @PostMapping("/removeFromCart")
+    @PostMapping("/remove/cart")
     public String removeFromCart(@RequestHeader("Authorization") String bearerToken, @RequestBody String flightCode) {
         return userService.removeFromCart(jwtService.extractUsername(bearerToken.split(" ")[1]), flightCode);
     }
 
     @PostMapping("/order")
-    public String order(@RequestHeader("Authorization") String bearerToken) {
+    public String order(@RequestHeader("Authorization") String bearerToken, @RequestBody OrderRequest personalData) {
         return userService.order(jwtService.extractUsername(bearerToken.split(" ")[1]));
     }
 

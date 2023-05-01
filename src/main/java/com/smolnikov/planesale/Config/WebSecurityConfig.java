@@ -47,9 +47,9 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
                 .authorizeHttpRequests()
-//                .requestMatchers("/api/v1/auth/**")
+                .requestMatchers("/api/v1/auth/**")
             //TODO: edit authentication whitelist
-                .requestMatchers("/api/v1/**")
+//                .requestMatchers("/api/v1/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
