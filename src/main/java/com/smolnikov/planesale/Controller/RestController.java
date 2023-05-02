@@ -48,6 +48,7 @@ public class RestController {
     @GetMapping("/get/cart")
     public List<CartResponse> getCart(@RequestHeader("Authorization") String bearerToken) {
 //        jwtService.extractUsername(bearerToken);
+        System.out.println(bearerToken);
         return userService.getCart(jwtService.extractUsername(bearerToken.split(" ")[1]));
     }
 
@@ -62,7 +63,7 @@ public class RestController {
     }
 
     @PostMapping("/order")
-    public String order(@RequestHeader("Authorization") String bearerToken, @RequestBody OrderRequest personalData) {
+    public String order(@RequestHeader("Authorization") String bearerToken) {
         return userService.order(jwtService.extractUsername(bearerToken.split(" ")[1]));
     }
 
